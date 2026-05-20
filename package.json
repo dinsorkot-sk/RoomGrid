@@ -13,6 +13,7 @@
     "db:studio": "npx nuxt db studio"
   },
   "dependencies": {
+    "@libsql/client": "^0.17.3",
     "@nuxthub/core": "^0.10.7",
     "drizzle-orm": "^0.45.2",
     "nuxt": "^4.4.6",
