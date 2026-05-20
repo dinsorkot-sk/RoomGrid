@@ -1,0 +1,331 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "tables": {
+    "organizations": {
+      "name": "organizations",
+      "columns": {
+        "id": { "name": "id", "type": "text", "primaryKey": true, "autoincrement": false },
+        "name": { "name": "name", "type": "text", "primaryKey": false, "autoincrement": false },
+        "slug": { "name": "slug", "type": "text", "primaryKey": false, "autoincrement": false },
+        "phone": { "name": "phone", "type": "text", "primaryKey": false, "autoincrement": false },
+        "email": { "name": "email", "type": "text", "primaryKey": false, "autoincrement": false },
+        "address": { "name": "address", "type": "text", "primaryKey": false, "autoincrement": false },
+        "logo_url": { "name": "logo_url", "type": "text", "primaryKey": false, "autoincrement": false },
+        "created_at": { "name": "created_at", "type": "integer", "primaryKey": false, "autoincrement": false },
+        "updated_at": { "name": "updated_at", "type": "integer", "primaryKey": false, "autoincrement": false }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {}
+    },
+    "users": {
+      "name": "users",
+      "columns": {
+        "id": { "name": "id", "type": "text", "primaryKey": true, "autoincrement": false },
+        "organization_id": { "name": "organization_id", "type": "text", "primaryKey": false, "autoincrement": false },
+        "email": { "name": "email", "type": "text", "primaryKey": false, "autoincrement": false },
+        "password_hash": { "name": "password_hash", "type": "text", "primaryKey": false, "autoincrement": false },
+        "first_name": { "name": "first_name", "type": "text", "primaryKey": false, "autoincrement": false },
+        "last_name": { "name": "last_name", "type": "text", "primaryKey": false, "autoincrement": false },
+        "phone": { "name": "phone", "type": "text", "primaryKey": false, "autoincrement": false },
+        "avatar_url": { "name": "avatar_url", "type": "text", "primaryKey": false, "autoincrement": false },
+        "role": { "name": "role", "type": "text", "primaryKey": false, "autoincrement": false },
+        "is_active": { "name": "is_active", "type": "integer", "primaryKey": false, "autoincrement": false },
+        "created_at": { "name": "created_at", "type": "integer", "primaryKey": false, "autoincrement": false },
+        "updated_at": { "name": "updated_at", "type": "integer", "primaryKey": false, "autoincrement": false }
+      },
+      "indexes": {},
+      "foreignKeys": { "organization_id": { "name": "organization_id", "columns": ["organization_id"], "refColumns": ["id"], "onUpdate": "no action", "onDelete": "no action" } },
+      "compositePrimaryKeys": {}
+    },
+    "dormitories": {
+      "name": "dormitories",
+      "columns": {
+        "id": { "name": "id", "type": "text", "primaryKey": true, "autoincrement": false },
+        "organization_id": { "name": "organization_id", "type": "text", "primaryKey": false, "autoincrement": false },
+        "name": { "name": "name", "type": "text", "primaryKey": false, "autoincrement": false },
+        "address": { "name": "address", "type": "text", "primaryKey": false, "autoincrement": false },
+        "description": { "name": "description", "type": "text", "primaryKey": false, "autoincrement": false },
+        "total_floors": { "name": "total_floors", "type": "integer", "primaryKey": false, "autoincrement": false },
+        "total_rooms": { "name": "total_rooms", "type": "integer", "primaryKey": false, "autoincrement": false },
+        "created_at": { "name": "created_at", "type": "integer", "primaryKey": false, "autoincrement": false },
+        "updated_at": { "name": "updated_at", "type": "integer", "primaryKey": false, "autoincrement": false }
+      },
+      "indexes": {},
+      "foreignKeys": { "organization_id": { "name": "organization_id", "columns": ["organization_id"], "refColumns": ["id"], "onUpdate": "no action", "onDelete": "no action" } },
+      "compositePrimaryKeys": {}
+    },
+    "room_types": {
+      "name": "room_types",
+      "columns": {
+        "id": { "name": "id", "type": "text", "primaryKey": true, "autoincrement": false },
+        "organization_id": { "name": "organization_id", "type": "text", "primaryKey": false, "autoincrement": false },
+        "name": { "name": "name", "type": "text", "primaryKey": false, "autoincrement": false },
+        "description": { "name": "description", "type": "text", "primaryKey": false, "autoincrement": false },
+        "monthly_rent": { "name": "monthly_rent", "type": "real", "primaryKey": false, "autoincrement": false },
+        "deposit_amount": { "name": "deposit_amount", "type": "real", "primaryKey": false, "autoincrement": false },
+        "water_rate": { "name": "water_rate", "type": "real", "primaryKey": false, "autoincrement": false },
+        "electric_rate": { "name": "electric_rate", "type": "real", "primaryKey": false, "autoincrement": false },
+        "created_at": { "name": "created_at", "type": "integer", "primaryKey": false, "autoincrement": false },
+        "updated_at": { "name": "updated_at", "type": "integer", "primaryKey": false, "autoincrement": false }
+      },
+      "indexes": {},
+      "foreignKeys": { "organization_id": { "name": "organization_id", "columns": ["organization_id"], "refColumns": ["id"], "onUpdate": "no action", "onDelete": "no action" } },
+      "compositePrimaryKeys": {}
+    },
+    "rooms": {
+      "name": "rooms",
+      "columns": {
+        "id": { "name": "id", "type": "text", "primaryKey": true, "autoincrement": false },
+        "organization_id": { "name": "organization_id", "type": "text", "primaryKey": false, "autoincrement": false },
+        "dormitory_id": { "name": "dormitory_id", "type": "text", "primaryKey": false, "autoincrement": false },
+        "room_type_id": { "name": "room_type_id", "type": "text", "primaryKey": false, "autoincrement": false },
+        "room_number": { "name": "room_number", "type": "text", "primaryKey": false, "autoincrement": false },
+        "floor": { "name": "floor", "type": "integer", "primaryKey": false, "autoincrement": false },
+        "status": { "name": "status", "type": "text", "primaryKey": false, "autoincrement": false },
+        "monthly_rent": { "name": "monthly_rent", "type": "real", "primaryKey": false, "autoincrement": false },
+        "deposit_amount": { "name": "deposit_amount", "type": "real", "primaryKey": false, "autoincrement": false },
+        "water_meter_last": { "name": "water_meter_last", "type": "real", "primaryKey": false, "autoincrement": false },
+        "electric_meter_last": { "name": "electric_meter_last", "type": "real", "primaryKey": false, "autoincrement": false },
+        "note": { "name": "note", "type": "text", "primaryKey": false, "autoincrement": false },
+        "created_at": { "name": "created_at", "type": "integer", "primaryKey": false, "autoincrement": false },
+        "updated_at": { "name": "updated_at", "type": "integer", "primaryKey": false, "autoincrement": false }
+      },
+      "indexes": { "rooms_org_room_idx": { "name": "rooms_org_room_idx", "columns": ["organization_id", "room_number"] } },
+      "foreignKeys": {
+        "organization_id": { "name": "organization_id", "columns": ["organization_id"], "refColumns": ["id"], "onUpdate": "no action", "onDelete": "no action" },
+        "dormitory_id": { "name": "dormitory_id", "columns": ["dormitory_id"], "refColumns": ["id"], "onUpdate": "no action", "onDelete": "no action" },
+        "room_type_id": { "name": "room_type_id", "columns": ["room_type_id"], "refColumns": ["id"], "onUpdate": "no action", "onDelete": "no action" }
+      },
+      "compositePrimaryKeys": {}
+    },
+    "tenants": {
+      "name": "tenants",
+      "columns": {
+        "id": { "name": "id", "type": "text", "primaryKey": true, "autoincrement": false },
+        "organization_id": { "name": "organization_id", "type": "text", "primaryKey": false, "autoincrement": false },
+        "user_id": { "name": "user_id", "type": "text", "primaryKey": false, "autoincrement": false },
+        "citizen_id": { "name": "citizen_id", "type": "text", "primaryKey": false, "autoincrement": false },
+        "birth_date": { "name": "birth_date", "type": "text", "primaryKey": false, "autoincrement": false },
+        "emergency_contact_name": { "name": "emergency_contact_name", "type": "text", "primaryKey": false, "autoincrement": false },
+        "emergency_contact_phone": { "name": "emergency_contact_phone", "type": "text", "primaryKey": false, "autoincrement": false },
+        "current_address": { "name": "current_address", "type": "text", "primaryKey": false, "autoincrement": false },
+        "created_at": { "name": "created_at", "type": "integer", "primaryKey": false, "autoincrement": false },
+        "updated_at": { "name": "updated_at", "type": "integer", "primaryKey": false, "autoincrement": false }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "organization_id": { "name": "organization_id", "columns": ["organization_id"], "refColumns": ["id"], "onUpdate": "no action", "onDelete": "no action" },
+        "user_id": { "name": "user_id", "columns": ["user_id"], "refColumns": ["id"], "onUpdate": "no action", "onDelete": "no action" }
+      },
+      "compositePrimaryKeys": {}
+    },
+    "contracts": {
+      "name": "contracts",
+      "columns": {
+        "id": { "name": "id", "type": "text", "primaryKey": true, "autoincrement": false },
+        "organization_id": { "name": "organization_id", "type": "text", "primaryKey": false, "autoincrement": false },
+        "tenant_id": { "name": "tenant_id", "type": "text", "primaryKey": false, "autoincrement": false },
+        "room_id": { "name": "room_id", "type": "text", "primaryKey": false, "autoincrement": false },
+        "contract_number": { "name": "contract_number", "type": "text", "primaryKey": false, "autoincrement": false },
+        "start_date": { "name": "start_date", "type": "text", "primaryKey": false, "autoincrement": false },
+        "end_date": { "name": "end_date", "type": "text", "primaryKey": false, "autoincrement": false },
+        "monthly_rent": { "name": "monthly_rent", "type": "real", "primaryKey": false, "autoincrement": false },
+        "deposit_amount": { "name": "deposit_amount", "type": "real", "primaryKey": false, "autoincrement": false },
+        "status": { "name": "status", "type": "text", "primaryKey": false, "autoincrement": false },
+        "pdf_url": { "name": "pdf_url", "type": "text", "primaryKey": false, "autoincrement": false },
+        "created_at": { "name": "created_at", "type": "integer", "primaryKey": false, "autoincrement": false },
+        "updated_at": { "name": "updated_at", "type": "integer", "primaryKey": false, "autoincrement": false }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "organization_id": { "name": "organization_id", "columns": ["organization_id"], "refColumns": ["id"], "onUpdate": "no action", "onDelete": "no action" },
+        "tenant_id": { "name": "tenant_id", "columns": ["tenant_id"], "refColumns": ["id"], "onUpdate": "no action", "onDelete": "no action" },
+        "room_id": { "name": "room_id", "columns": ["room_id"], "refColumns": ["id"], "onUpdate": "no action", "onDelete": "no action" }
+      },
+      "compositePrimaryKeys": {}
+    },
+    "invoices": {
+      "name": "invoices",
+      "columns": {
+        "id": { "name": "id", "type": "text", "primaryKey": true, "autoincrement": false },
+        "organization_id": { "name": "organization_id", "type": "text", "primaryKey": false, "autoincrement": false },
+        "tenant_id": { "name": "tenant_id", "type": "text", "primaryKey": false, "autoincrement": false },
+        "room_id": { "name": "room_id", "type": "text", "primaryKey": false, "autoincrement": false },
+        "contract_id": { "name": "contract_id", "type": "text", "primaryKey": false, "autoincrement": false },
+        "invoice_no": { "name": "invoice_no", "type": "text", "primaryKey": false, "autoincrement": false },
+        "billing_month": { "name": "billing_month", "type": "text", "primaryKey": false, "autoincrement": false },
+        "room_rent": { "name": "room_rent", "type": "real", "primaryKey": false, "autoincrement": false },
+        "water_unit": { "name": "water_unit", "type": "real", "primaryKey": false, "autoincrement": false },
+        "water_price": { "name": "water_price", "type": "real", "primaryKey": false, "autoincrement": false },
+        "electric_unit": { "name": "electric_unit", "type": "real", "primaryKey": false, "autoincrement": false },
+        "electric_price": { "name": "electric_price", "type": "real", "primaryKey": false, "autoincrement": false },
+        "other_amount": { "name": "other_amount", "type": "real", "primaryKey": false, "autoincrement": false },
+        "subtotal": { "name": "subtotal", "type": "real", "primaryKey": false, "autoincrement": false },
+        "total_amount": { "name": "total_amount", "type": "real", "primaryKey": false, "autoincrement": false },
+        "due_date": { "name": "due_date", "type": "text", "primaryKey": false, "autoincrement": false },
+        "status": { "name": "status", "type": "text", "primaryKey": false, "autoincrement": false },
+        "created_at": { "name": "created_at", "type": "integer", "primaryKey": false, "autoincrement": false },
+        "updated_at": { "name": "updated_at", "type": "integer", "primaryKey": false, "autoincrement": false }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "organization_id": { "name": "organization_id", "columns": ["organization_id"], "refColumns": ["id"], "onUpdate": "no action", "onDelete": "no action" },
+        "tenant_id": { "name": "tenant_id", "columns": ["tenant_id"], "refColumns": ["id"], "onUpdate": "no action", "onDelete": "no action" },
+        "room_id": { "name": "room_id", "columns": ["room_id"], "refColumns": ["id"], "onUpdate": "no action", "onDelete": "no action" },
+        "contract_id": { "name": "contract_id", "columns": ["contract_id"], "refColumns": ["id"], "onUpdate": "no action", "onDelete": "no action" }
+      },
+      "compositePrimaryKeys": {}
+    },
+    "payments": {
+      "name": "payments",
+      "columns": {
+        "id": { "name": "id", "type": "text", "primaryKey": true, "autoincrement": false },
+        "organization_id": { "name": "organization_id", "type": "text", "primaryKey": false, "autoincrement": false },
+        "invoice_id": { "name": "invoice_id", "type": "text", "primaryKey": false, "autoincrement": false },
+        "payment_method": { "name": "payment_method", "type": "text", "primaryKey": false, "autoincrement": false },
+        "amount": { "name": "amount", "type": "real", "primaryKey": false, "autoincrement": false },
+        "paid_at": { "name": "paid_at", "type": "text", "primaryKey": false, "autoincrement": false },
+        "transaction_ref": { "name": "transaction_ref", "type": "text", "primaryKey": false, "autoincrement": false },
+        "slip_url": { "name": "slip_url", "type": "text", "primaryKey": false, "autoincrement": false },
+        "created_by": { "name": "created_by", "type": "text", "primaryKey": false, "autoincrement": false },
+        "created_at": { "name": "created_at", "type": "integer", "primaryKey": false, "autoincrement": false },
+        "updated_at": { "name": "updated_at", "type": "integer", "primaryKey": false, "autoincrement": false }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "organization_id": { "name": "organization_id", "columns": ["organization_id"], "refColumns": ["id"], "onUpdate": "no action", "onDelete": "no action" },
+        "invoice_id": { "name": "invoice_id", "columns": ["invoice_id"], "refColumns": ["id"], "onUpdate": "no action", "onDelete": "no action" },
+        "created_by": { "name": "created_by", "columns": ["created_by"], "refColumns": ["id"], "onUpdate": "no action", "onDelete": "no action" }
+      },
+      "compositePrimaryKeys": {}
+    },
+    "meter_readings": {
+      "name": "meter_readings",
+      "columns": {
+        "id": { "name": "id", "type": "text", "primaryKey": true, "autoincrement": false },
+        "organization_id": { "name": "organization_id", "type": "text", "primaryKey": false, "autoincrement": false },
+        "room_id": { "name": "room_id", "type": "text", "primaryKey": false, "autoincrement": false },
+        "month": { "name": "month", "type": "text", "primaryKey": false, "autoincrement": false },
+        "water_meter_previous": { "name": "water_meter_previous", "type": "real", "primaryKey": false, "autoincrement": false },
+        "water_meter_current": { "name": "water_meter_current", "type": "real", "primaryKey": false, "autoincrement": false },
+        "water_unit_used": { "name": "water_unit_used", "type": "real", "primaryKey": false, "autoincrement": false },
+        "electric_meter_previous": { "name": "electric_meter_previous", "type": "real", "primaryKey": false, "autoincrement": false },
+        "electric_meter_current": { "name": "electric_meter_current", "type": "real", "primaryKey": false, "autoincrement": false },
+        "electric_unit_used": { "name": "electric_unit_used", "type": "real", "primaryKey": false, "autoincrement": false },
+        "recorded_by": { "name": "recorded_by", "type": "text", "primaryKey": false, "autoincrement": false },
+        "created_at": { "name": "created_at", "type": "integer", "primaryKey": false, "autoincrement": false },
+        "updated_at": { "name": "updated_at", "type": "integer", "primaryKey": false, "autoincrement": false }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "organization_id": { "name": "organization_id", "columns": ["organization_id"], "refColumns": ["id"], "onUpdate": "no action", "onDelete": "no action" },
+        "room_id": { "name": "room_id", "columns": ["room_id"], "refColumns": ["id"], "onUpdate": "no action", "onDelete": "no action" },
+        "recorded_by": { "name": "recorded_by", "columns": ["recorded_by"], "refColumns": ["id"], "onUpdate": "no action", "onDelete": "no action" }
+      },
+      "compositePrimaryKeys": {}
+    },
+    "maintenance_requests": {
+      "name": "maintenance_requests",
+      "columns": {
+        "id": { "name": "id", "type": "text", "primaryKey": true, "autoincrement": false },
+        "organization_id": { "name": "organization_id", "type": "text", "primaryKey": false, "autoincrement": false },
+        "tenant_id": { "name": "tenant_id", "type": "text", "primaryKey": false, "autoincrement": false },
+        "room_id": { "name": "room_id", "type": "text", "primaryKey": false, "autoincrement": false },
+        "title": { "name": "title", "type": "text", "primaryKey": false, "autoincrement": false },
+        "description": { "name": "description", "type": "text", "primaryKey": false, "autoincrement": false },
+        "status": { "name": "status", "type": "text", "primaryKey": false, "autoincrement": false },
+        "priority": { "name": "priority", "type": "text", "primaryKey": false, "autoincrement": false },
+        "assigned_to": { "name": "assigned_to", "type": "text", "primaryKey": false, "autoincrement": false },
+        "completed_at": { "name": "completed_at", "type": "text", "primaryKey": false, "autoincrement": false },
+        "created_at": { "name": "created_at", "type": "integer", "primaryKey": false, "autoincrement": false },
+        "updated_at": { "name": "updated_at", "type": "integer", "primaryKey": false, "autoincrement": false }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "organization_id": { "name": "organization_id", "columns": ["organization_id"], "refColumns": ["id"], "onUpdate": "no action", "onDelete": "no action" },
+        "tenant_id": { "name": "tenant_id", "columns": ["tenant_id"], "refColumns": ["id"], "onUpdate": "no action", "onDelete": "no action" },
+        "room_id": { "name": "room_id", "columns": ["room_id"], "refColumns": ["id"], "onUpdate": "no action", "onDelete": "no action" },
+        "assigned_to": { "name": "assigned_to", "columns": ["assigned_to"], "refColumns": ["id"], "onUpdate": "no action", "onDelete": "no action" }
+      },
+      "compositePrimaryKeys": {}
+    },
+    "maintenance_images": {
+      "name": "maintenance_images",
+      "columns": {
+        "id": { "name": "id", "type": "text", "primaryKey": true, "autoincrement": false },
+        "organization_id": { "name": "organization_id", "type": "text", "primaryKey": false, "autoincrement": false },
+        "maintenance_request_id": { "name": "maintenance_request_id", "type": "text", "primaryKey": false, "autoincrement": false },
+        "image_url": { "name": "image_url", "type": "text", "primaryKey": false, "autoincrement": false },
+        "created_at": { "name": "created_at", "type": "integer", "primaryKey": false, "autoincrement": false }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "organization_id": { "name": "organization_id", "columns": ["organization_id"], "refColumns": ["id"], "onUpdate": "no action", "onDelete": "no action" },
+        "maintenance_request_id": { "name": "maintenance_request_id", "columns": ["maintenance_request_id"], "refColumns": ["id"], "onUpdate": "no action", "onDelete": "no action" }
+      },
+      "compositePrimaryKeys": {}
+    },
+    "notifications": {
+      "name": "notifications",
+      "columns": {
+        "id": { "name": "id", "type": "text", "primaryKey": true, "autoincrement": false },
+        "organization_id": { "name": "organization_id", "type": "text", "primaryKey": false, "autoincrement": false },
+        "user_id": { "name": "user_id", "type": "text", "primaryKey": false, "autoincrement": false },
+        "type": { "name": "type", "type": "text", "primaryKey": false, "autoincrement": false },
+        "title": { "name": "title", "type": "text", "primaryKey": false, "autoincrement": false },
+        "message": { "name": "message", "type": "text", "primaryKey": false, "autoincrement": false },
+        "is_read": { "name": "is_read", "type": "integer", "primaryKey": false, "autoincrement": false },
+        "created_at": { "name": "created_at", "type": "integer", "primaryKey": false, "autoincrement": false }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "organization_id": { "name": "organization_id", "columns": ["organization_id"], "refColumns": ["id"], "onUpdate": "no action", "onDelete": "no action" },
+        "user_id": { "name": "user_id", "columns": ["user_id"], "refColumns": ["id"], "onUpdate": "no action", "onDelete": "no action" }
+      },
+      "compositePrimaryKeys": {}
+    },
+    "subscriptions": {
+      "name": "subscriptions",
+      "columns": {
+        "id": { "name": "id", "type": "text", "primaryKey": true, "autoincrement": false },
+        "organization_id": { "name": "organization_id", "type": "text", "primaryKey": false, "autoincrement": false },
+        "plan_name": { "name": "plan_name", "type": "text", "primaryKey": false, "autoincrement": false },
+        "status": { "name": "status", "type": "text", "primaryKey": false, "autoincrement": false },
+        "max_rooms": { "name": "max_rooms", "type": "integer", "primaryKey": false, "autoincrement": false },
+        "max_users": { "name": "max_users", "type": "integer", "primaryKey": false, "autoincrement": false },
+        "started_at": { "name": "started_at", "type": "text", "primaryKey": false, "autoincrement": false },
+        "expired_at": { "name": "expired_at", "type": "text", "primaryKey": false, "autoincrement": false },
+        "created_at": { "name": "created_at", "type": "integer", "primaryKey": false, "autoincrement": false },
+        "updated_at": { "name": "updated_at", "type": "integer", "primaryKey": false, "autoincrement": false }
+      },
+      "indexes": {},
+      "foreignKeys": { "organization_id": { "name": "organization_id", "columns": ["organization_id"], "refColumns": ["id"], "onUpdate": "no action", "onDelete": "no action" } },
+      "compositePrimaryKeys": {}
+    },
+    "audit_logs": {
+      "name": "audit_logs",
+      "columns": {
+        "id": { "name": "id", "type": "text", "primaryKey": true, "autoincrement": false },
+        "organization_id": { "name": "organization_id", "type": "text", "primaryKey": false, "autoincrement": false },
+        "user_id": { "name": "user_id", "type": "text", "primaryKey": false, "autoincrement": false },
+        "action": { "name": "action", "type": "text", "primaryKey": false, "autoincrement": false },
+        "entity_type": { "name": "entity_type", "type": "text", "primaryKey": false, "autoincrement": false },
+        "entity_id": { "name": "entity_id", "type": "text", "primaryKey": false, "autoincrement": false },
+        "old_value": { "name": "old_value", "type": "text", "primaryKey": false, "autoincrement": false },
+        "new_value": { "name": "new_value", "type": "text", "primaryKey": false, "autoincrement": false },
+        "ip_address": { "name": "ip_address", "type": "text", "primaryKey": false, "autoincrement": false },
+        "created_at": { "name": "created_at", "type": "integer", "primaryKey": false, "autoincrement": false }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "organization_id": { "name": "organization_id", "columns": ["organization_id"], "refColumns": ["id"], "onUpdate": "no action", "onDelete": "no action" },
+        "user_id": { "name": "user_id", "columns": ["user_id"], "refColumns": ["id"], "onUpdate": "no action", "onDelete": "no action" }
+      },
+      "compositePrimaryKeys": {}
+    }
+  },
+  "enums": {},
+  "nativeEnums": {}
+}

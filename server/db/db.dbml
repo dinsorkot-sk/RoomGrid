@@ -1,0 +1,345 @@
+Project dormitory_saas {
+  database_type: "SQLite"
+  Note: '''
+  Multi-tenant SaaS for apartment/dormitory management
+  Stack:
+  - Nuxt 4
+  - NuxtHub
+  - Drizzle ORM
+  - Turso (SQLite)
+  '''
+}
+
+Enum user_role {
+  super_admin
+  owner
+  staff
+  tenant
+}
+
+Enum room_status {
+  available
+  occupied
+  reserved
+  maintenance
+}
+
+Enum contract_status {
+  active
+  expired
+  terminated
+}
+
+Enum invoice_status {
+  draft
+  unpaid
+  paid
+  overdue
+  cancelled
+}
+
+Enum payment_method {
+  cash
+  transfer
+  promptpay
+  stripe
+}
+
+Enum maintenance_status {
+  pending
+  accepted
+  in_progress
+  completed
+  cancelled
+}
+
+Table organizations {
+  id text [pk]
+  name text
+  slug text [unique]
+  phone text
+  email text
+  address text
+  logo_url text
+
+  created_at integer
+  updated_at integer
+}
+
+Table users {
+  id text [pk]
+  organization_id text [ref: > organizations.id]
+
+  email text
+  password_hash text
+
+  first_name text
+  last_name text
+  phone text
+  avatar_url text
+
+  role user_role
+
+  is_active boolean
+
+  created_at integer
+  updated_at integer
+}
+
+Table dormitories {
+  id text [pk]
+  organization_id text [ref: > organizations.id]
+
+  name text
+  address text
+  description text
+
+  total_floors integer
+  total_rooms integer
+
+  created_at integer
+  updated_at integer
+}
+
+Table room_types {
+  id text [pk]
+  organization_id text [ref: > organizations.id]
+
+  name text
+  description text
+
+  monthly_rent real
+  deposit_amount real
+
+  water_rate real
+  electric_rate real
+
+  created_at integer
+  updated_at integer
+}
+
+Table rooms {
+  id text [pk]
+  organization_id text [ref: > organizations.id]
+  dormitory_id text [ref: > dormitories.id]
+  room_type_id text [ref: > room_types.id]
+
+  room_number text
+  floor integer
+
+  status room_status
+
+  monthly_rent real
+  deposit_amount real
+
+  water_meter_last real
+  electric_meter_last real
+
+  note text
+
+  created_at integer
+  updated_at integer
+
+  Indexes {
+    (organization_id, room_number)
+  }
+}
+
+Table tenants {
+  id text [pk]
+  organization_id text [ref: > organizations.id]
+
+  user_id text [ref: > users.id]
+
+  citizen_id text
+  birth_date text
+
+  emergency_contact_name text
+  emergency_contact_phone text
+
+  current_address text
+
+  created_at integer
+  updated_at integer
+}
+
+Table contracts {
+  id text [pk]
+  organization_id text [ref: > organizations.id]
+
+  tenant_id text [ref: > tenants.id]
+  room_id text [ref: > rooms.id]
+
+  contract_number text
+
+  start_date text
+  end_date text
+
+  monthly_rent real
+  deposit_amount real
+
+  status contract_status
+
+  pdf_url text
+
+  created_at integer
+  updated_at integer
+}
+
+Table invoices {
+  id text [pk]
+  organization_id text [ref: > organizations.id]
+
+  tenant_id text [ref: > tenants.id]
+  room_id text [ref: > rooms.id]
+  contract_id text [ref: > contracts.id]
+
+  invoice_no text
+
+  billing_month text
+
+  room_rent real
+
+  water_unit real
+  water_price real
+
+  electric_unit real
+  electric_price real
+
+  other_amount real
+
+  subtotal real
+  total_amount real
+
+  due_date text
+
+  status invoice_status
+
+  created_at integer
+  updated_at integer
+}
+
+Table payments {
+  id text [pk]
+  organization_id text [ref: > organizations.id]
+
+  invoice_id text [ref: > invoices.id]
+
+  payment_method payment_method
+
+  amount real
+  paid_at text
+
+  transaction_ref text
+  slip_url text
+
+  created_by text [ref: > users.id]
+
+  created_at integer
+  updated_at integer
+}
+
+Table meter_readings {
+  id text [pk]
+  organization_id text [ref: > organizations.id]
+
+  room_id text [ref: > rooms.id]
+
+  month text
+
+  water_meter_previous real
+  water_meter_current real
+  water_unit_used real
+
+  electric_meter_previous real
+  electric_meter_current real
+  electric_unit_used real
+
+  recorded_by text [ref: > users.id]
+
+  created_at integer
+  updated_at integer
+}
+
+Table maintenance_requests {
+  id text [pk]
+  organization_id text [ref: > organizations.id]
+
+  tenant_id text [ref: > tenants.id]
+  room_id text [ref: > rooms.id]
+
+  title text
+  description text
+
+  status maintenance_status
+  priority text
+
+  assigned_to text [ref: > users.id]
+
+  completed_at text
+
+  created_at integer
+  updated_at integer
+}
+
+Table maintenance_images {
+  id text [pk]
+  organization_id text [ref: > organizations.id]
+
+  maintenance_request_id text [ref: > maintenance_requests.id]
+
+  image_url text
+
+  created_at integer
+}
+
+Table notifications {
+  id text [pk]
+  organization_id text [ref: > organizations.id]
+
+  user_id text [ref: > users.id]
+
+  type text
+  title text
+  message text
+
+  is_read boolean
+
+  created_at integer
+}
+
+Table subscriptions {
+  id text [pk]
+  organization_id text [ref: > organizations.id]
+
+  plan_name text
+
+  status text
+
+  max_rooms integer
+  max_users integer
+
+  started_at text
+  expired_at text
+
+  created_at integer
+  updated_at integer
+}
+
+Table audit_logs {
+  id text [pk]
+  organization_id text [ref: > organizations.id]
+
+  user_id text [ref: > users.id]
+
+  action text
+  entity_type text
+  entity_id text
+
+  old_value text
+  new_value text
+
+  ip_address text
+
+  created_at integer
+}
